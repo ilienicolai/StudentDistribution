@@ -1,0 +1,73 @@
+    Aplicatia proiectata stocheaza datele referitoare la studenti in clasa 'Secretariat'
+prin intermediul a doua colectii de tipul TreeSet. Am ales acest tip de colectie deoarece
+permite adaugarea ordonata a obiectelor si o cautare eficienta. Un TreeSet contine obiecte
+de tipul Student, sortate dupa nume (numeStud), si unul asemanator (studenti), dar care
+contine studentii ordonati in functie de medie. Am ales aceasta abordare deoarece permite
+cautarea eficienta a unui student dupa nume, in 'numeStud'. Am utilizat un al doilea TreeSet
+(studenti) pentru a avea usor acces la studenti ordonati in functie de medie,
+functionalitate utilizata pentru solutionarea unei contestatii, unde studentii ar trebui
+reordonati. Studentii sunt initial adaugati in TreeSet-ul 'numeStud' iar la citirea
+mediilor sunt adaugati si in celalalt. Metodele de comparare ale TreeSet-urilor au fost
+suprascrise pentru a avea sortarea dorita.
+    In clasa 'Secretariat' se mai afla stocate si listele de cursuri, cu ajutorul a 2
+ArrayList ce contin cursuri de licenta (ArrayList<Curs<StudLicenta>> cursLic) si cursuri
+de master (ArrayList<Curs<StudMaster>> cursMas). Am ales acest tip de colectii deoarece
+cursurile sunt in numar foarte mic iar operatiile pe acestea nu necesita mult timp.
+    Clasa 'Student' contine numele studentului (String nume), media studentului (double
+medie). Clasele 'StudLicenta' si 'StudMaster' extind clasa 'Student' si au specific un
+camp de preferinte, un ArrayList ce contine cursurile pentru care opteaza un student,
+ArrayList<Curs<StudLicenta>> pref, respectiv ArrayList<Curs<StudMaster>> pref, dar si un
+camp 'curs' ce contine cursul la care a fost inrolat studentul.
+    Clasa 'Curs' este o clasa parametrizata ce contine denumirea cursului (String denumire),
+numarul maxim de studenti (int capacitate), un numar actual de studenti (int nrStud) si
+un ArrayList de obicte de acelasi tip cu parametrul clasei, reprezentand studentii inrolati
+la acel curs (de master sau licenta). Am ales acest tip de colectie deoarece, la repartizarea
+studentilor imi permite accesarea ultimei medii si pot reordona studentii alfabetic.
+
+-----DESCRIEREA-FUNCTIILOR----
+--- public void adaugaStudent(String studii, String nume) throws ExceptieStudExistent ---
+    Metoda executa comanda de adaugare student. Mai intai verifica daca studentul exista
+si arunca exceptia 'ExceptieStudExistent' daca acesta exista. Daca nu exista, se creeaza
+un obiect de tipul 'StudMaster' sau 'StudLicenta' (dupa caz) si se adauga in TreeSet-ul
+'numeStud'.
+
+--- public void citesteNote(String notePath) ---
+    Metoda executa comanda de ctire note. Metoda parcurge cate un fisier de note, cauata
+studentul dupa nume (in 'numeStud'), ii seteaza media si il adauga in 'studenti'.
+
+--- public void contestatie(String nume, String med) ---
+    Metoda solutioneaza o contestatie. Mai intai cauta studentul dupa nume in 'numeStud',
+apoi elimina studentul din 'studenti', ii modifica media si il adauga din nou pentru a
+restabili ordonarea dupa medii in TreeSet-ul 'studenti'. Acesta este unul dintre motivele
+pentru care am ales utilizarea acestor colectii: reordonarea usoara a studentilor dupa
+medie.
+
+--- public void adaugaCurs(String[] vals) ---
+    Metoda executa comanda de adaugare curs. Creeaza un curs nou, in functie de
+specialitate (licenta sau master) si il adauga in lista corespunzatoare.
+
+--- public Curs<StudLicenta> findCursLic(String denum) ---
+    Metoda cauta un curs in lista de cursuri de licenta.
+
+--- public Curs<StudMaster> findCursMas(String denum) ---
+    Metoda cauta un curs in lista de cursuri de master.
+
+--- public void adaugaPreferinte(String[] vals) ---
+    Metoda executa comanda de adaugare preferinte. Prima data identifica tipul
+studentului (licenta sau master), apoi cauta cursul dupa denumire in lista corespunzatoare
+(cursuri de licenta sau cursuri de master).
+
+--- public void repartizeaza() ---
+    Metoda executa comanda de repartizare. Identifica tipul studentului si apeleaza
+metoda corespunzatoare de repartizare.
+
+--- public void repartStudLic(Student stud) / public void repartStudMas(Student stud) ---
+    Metodele repartizeza studenti de un anumit tip, in mod asemanator. Se parcurge lista
+de preferinte a studentului si se verifica in ordinea preferintelor daca are loc la
+acel curs. Este verificata de asemenea situatia in care la curs nu mai sunt locuri dar
+studentul are media egala cu cea mai mica medie de la acel curs, caz in care poate fi
+repartizat acolo. In cadrul fiecarui curs, studentii sunt ordonati in functie de medie,
+iar ulterior sunt sortati in functie de nume.
+
+--- public void sortStudCurs() ---
+    Metoda sorteaza alfabetic studentii de la fiecare curs.
